@@ -13,16 +13,16 @@ nh = ndd.Hashlib()
 nh.add('orig1', orig1)
 nh.add('orig3', orig3)
 
-assert(len(nh.query(orig1)) == 1) # Exact match
-assert(len(nh.query(orig2)) == 0) # No match
-assert(len(nh.query(dup1)) == 0) # Near-duplicate
+assert(nh.query(orig1)[1]) # Exact match
+assert(~nh.query(orig2)[1]) # No match
+assert(~nh.query(dup1)[1]) # Near-duplicate
 
 nh.save('dbs/hashlib')
 
 # Test from load
 nh = ndd.Hashlib('dbs/hashlib')
-assert(len(nh.query(orig1)) == 1) # Exact match
-assert(len(nh.query(orig2)) == 0) # No match
-assert(len(nh.query(dup1)) == 0) # Near-duplicate
+assert(nh.query(orig1)[1]) # Exact match
+assert(~nh.query(orig2)[1]) # No match
+assert(~nh.query(dup1)[1]) # Near-duplicate
 
 

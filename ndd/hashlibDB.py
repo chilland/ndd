@@ -30,7 +30,11 @@ class Hashlib:
                 
     def query(self, data, **kwargs):
         hsh = self.hash_function(data)
-        return self.hashes.get(hsh, set([]))
+        matches = self.hashes.get(hsh, None)
+        if matches:
+            return matches, True
+        else:
+            return set([]), False
     
     def load(self, db_path):
         self.ids = pickle.load(open(os.path.join(db_path, 'ids'), 'r'))

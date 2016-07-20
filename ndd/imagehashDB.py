@@ -40,9 +40,6 @@ class Imagehash:
     def _hamming(self, x, y):
         return (x != y).sum(axis=1)
         
-    def _neighbors(self, x, y, threshold=0):
-        return np.where(self._hamming(x, y) <= threshold)[0]
-    
     def add(self, id, data):
         if id not in self.ids:
             hsh = self.hash_function(data)
@@ -54,9 +51,12 @@ class Imagehash:
         else:
             print >> sys.stderr, '!! `id` already exists'
         
-    def query(self, data, **kwargs):
-        hsh = self.hash_function(data)
-        return set(self.ids[self._neighbors(hsh, self.hashes, **kwargs)])
+    def query(self, data, threshold=0, **kwargs):
+        dists = self._hamming(self.hash_function(data), self.hashes)
+        if np.min(dists) <= threshold:
+            return self.ids[dists <= threshold], True
+        else:
+            return set([]), False
     
     def load(self, db_path):
         self.ids = np.load(os.path.join(db_path, 'ids.npy'))

@@ -14,11 +14,11 @@ class Multihash:
     
     def query(self, data, **kwargs):
         for hash_ in self.hashes:
-            curr = hash_.query(data, **kwargs)
-            if curr:
-                return curr
-        
-        return set([])
+            matches, has_match = hash_.query(data, **kwargs)
+            if has_match:
+                return matches, True
+            
+        return set([]), False
     
     def load(self, db_path):
         subdirs = sorted(os.listdir(db_path))
