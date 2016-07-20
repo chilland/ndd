@@ -1,2 +1,3 @@
-from hashlibDB import hashlib
-from imagehashDB import imagehash
+from hashlibDB import hashlibDB as hashlib
+from imagehashDB import imagehashDB as imagehash
+from multihash import multihash

@@ -6,18 +6,37 @@
 
 import os
 import sys
-import imagehash
+import cv2
 import numpy as np
-from PIL import Image
+import scipy.fftpack
 
-class imagehash:
+def phash(image, hash_size=8, highfreq_factor=4):
+    """
+        Perceptual Hash computation.
+        Implementation follows http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
+        @image must be a PIL instance.
+        (Taken from `imagehash` library)
+    """
+    img_size = hash_size * highfreq_factor
+    
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.resize(image, (img_size, img_size))
+    
+    dct = scipy.fftpack.dct(scipy.fftpack.dct(image, axis=0), axis=1)
+    dctlowfreq = dct[:hash_size, :hash_size]
+    med = np.median(dctlowfreq)
+    diff = dctlowfreq > med
+    return diff
+
+
+class imagehashDB:
     ids = np.array([])
     hashes = None
     
-    def __init__(self, db_path=None, mode='phash'):
-        self.hash_function = lambda x: np.hstack(getattr(imagehash, mode)(Image.open(x)).hash)
+    def __init__(self, db_path=None):
+        self.hash_function = lambda x: np.hstack(phash(x))
         if db_path:
-            self.ids, self.hashes = self.load(db_path)
+            self.load(db_path)
     
     def _hamming(self, x, y):
         return (x != y).sum(axis=1)
@@ -38,12 +57,11 @@ class imagehash:
         
     def query(self, data):
         hsh = self.hash_function(data)
-        return self.ids[self._neighbors(hsh, self.hashes)]
+        return set(self.ids[self._neighbors(hsh, self.hashes)])
     
     def load(self, db_path):
-        ids = np.load(os.path.join(db_path, 'ids.npy'))
-        hashes = np.load(os.path.join(db_path, 'hashes.npy'))
-        return ids, hashes
+        self.ids = np.load(os.path.join(db_path, 'ids.npy'))
+        self.hashes = np.load(os.path.join(db_path, 'hashes.npy'))
     
     def save(self, db_path):
         if not os.path.exists(db_path):
