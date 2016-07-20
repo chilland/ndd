@@ -2,7 +2,7 @@
     Create indices from a directory of images
     
     Run like:
-        python multihash-directory.py --input-dir ../tests/data --output-dir ./tmp
+        python multihash-dir2db.py --input-dir ../tests/data --db ./db/test
 """
 
 import os
@@ -17,7 +17,7 @@ import ndd
 def parse_args():
     parser = argparse.ArgumentParser(usage="create hash databases from a directory")
     parser.add_argument('--input-dir', type=str, required=True)
-    parser.add_argument('--output-dir', type=str, required=True)
+    parser.add_argument('--db', type=str, required=True)
     return parser.parse_args()
 
 if __name__ == "__main__":
@@ -35,4 +35,4 @@ if __name__ == "__main__":
                 counter += 1
                 
     print >> sys.stderr, '\n Added %d images' % counter
-    nh.save(args.output_dir)
+    nh.save(args.db)

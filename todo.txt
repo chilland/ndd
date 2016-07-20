@@ -1,0 +1,1 @@
+Return distance for non-exact queries

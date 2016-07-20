@@ -4,6 +4,7 @@
 *pkl
 tests/dbs
 utils/dbs
+utils/tmp
 dist/
 build/
 ndd.egg-info
