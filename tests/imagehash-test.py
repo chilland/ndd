@@ -13,14 +13,14 @@ nh = ndd.Imagehash()
 nh.add('orig1', orig1)
 nh.add('orig3', orig3)
 
-assert(nh.query(orig1)[1]) # Exact match
-assert(~nh.query(orig2)[1]) # No match
-assert(nh.query(dup1)[1]) # Near-duplicate
+assert(nh.query(orig1).has_match) # Exact match
+assert(~nh.query(orig2).has_match) # No match
+assert(nh.query(dup1).has_match) # Near-duplicate
 
 nh.save('dbs/imagehash')
 
 # Test from load
 nh = ndd.Imagehash('dbs/imagehash')
-assert(nh.query(orig1)[1]) # Exact match
-assert(~nh.query(orig2)[1]) # No match
-assert(nh.query(dup1)[1]) # Near-duplicate
+assert(nh.query(orig1).has_match) # Exact match
+assert(~nh.query(orig2).has_match) # No match
+assert(nh.query(dup1).has_match) # Near-duplicate

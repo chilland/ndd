@@ -10,6 +10,8 @@ import cv2
 import numpy as np
 import scipy.fftpack
 
+import ndd
+
 def phash(image, hash_size=8, highfreq_factor=4):
     """
         Perceptual Hash computation.

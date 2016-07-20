@@ -9,6 +9,8 @@ import sys
 import pickle
 from hashlib import md5
 
+import ndd
+
 class Hashlib:
     method = 'md5'
     
