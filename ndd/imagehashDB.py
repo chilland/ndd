@@ -29,14 +29,13 @@ def phash(image, hash_size=8, highfreq_factor=4):
     return diff
 
 
-class imagehashDB:
-    ids = np.array([])
-    hashes = None
-    
+class Imagehash:    
     def __init__(self, db_path=None):
         self.hash_function = lambda x: np.hstack(phash(x))
         if db_path:
             self.load(db_path)
+        else:
+            self.ids, self.hashes = np.array([]), None
     
     def _hamming(self, x, y):
         return (x != y).sum(axis=1)

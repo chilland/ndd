@@ -1,3 +1,7 @@
 *pyc
 *npy
 *pkl
+tests/dbs
+dist/
+build/
+ndd.egg-info

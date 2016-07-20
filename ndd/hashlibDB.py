@@ -9,14 +9,13 @@ import sys
 import pickle
 from hashlib import md5
 
-class hashlibDB:
-    ids = set([])
-    hashes = {}
-    
+class Hashlib:
     def __init__(self, db_path=None):
         self.hash_function = lambda x: md5(x).hexdigest()
         if db_path:
             self.load(db_path)
+        else:
+            self.ids, self.hashes = set([]), {}
     
     def add(self, id, data):
         if id not in self.ids:
