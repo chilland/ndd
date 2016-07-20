@@ -10,6 +10,8 @@ import pickle
 from hashlib import md5
 
 class Hashlib:
+    method = 'md5'
+    
     def __init__(self, db_path=None):
         self.hash_function = lambda x: md5(x).hexdigest()
         if db_path:
@@ -32,9 +34,12 @@ class Hashlib:
         hsh = self.hash_function(data)
         matches = self.hashes.get(hsh, None)
         if matches:
-            return matches, True
+            return ndd.match(**{
+                "matches" : matches,
+                "method" : self.method    
+            })
         else:
-            return set([]), False
+            return ndd.match(method=self.method)
     
     def load(self, db_path):
         self.ids = pickle.load(open(os.path.join(db_path, 'ids'), 'r'))
