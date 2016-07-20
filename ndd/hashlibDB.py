@@ -28,7 +28,7 @@ class Hashlib:
         else:
             print >> sys.stderr, '!! `id` already exists'
                 
-    def query(self, data):
+    def query(self, data, **kwargs):
         hsh = self.hash_function(data)
         return self.hashes.get(hsh, set([]))
     

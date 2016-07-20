@@ -12,9 +12,9 @@ class Multihash:
         for hash_ in self.hashes:
             hash_.add(id, data)
     
-    def query(self, data):
+    def query(self, data, **kwargs):
         for hash_ in self.hashes:
-            curr = hash_.query(data)
+            curr = hash_.query(data, **kwargs)
             if curr:
                 return curr
         

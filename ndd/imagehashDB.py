@@ -10,6 +10,7 @@ import cv2
 import numpy as np
 import scipy.fftpack
 
+
 def phash(image, hash_size=8, highfreq_factor=4):
     """
         Perceptual Hash computation.
@@ -27,7 +28,6 @@ def phash(image, hash_size=8, highfreq_factor=4):
     med = np.median(dctlowfreq)
     diff = dctlowfreq > med
     return diff
-
 
 class Imagehash:    
     def __init__(self, db_path=None):
@@ -54,9 +54,9 @@ class Imagehash:
         else:
             print >> sys.stderr, '!! `id` already exists'
         
-    def query(self, data):
+    def query(self, data, **kwargs):
         hsh = self.hash_function(data)
-        return set(self.ids[self._neighbors(hsh, self.hashes)])
+        return set(self.ids[self._neighbors(hsh, self.hashes, **kwargs)])
     
     def load(self, db_path):
         self.ids = np.load(os.path.join(db_path, 'ids.npy'))
