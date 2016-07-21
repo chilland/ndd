@@ -6,7 +6,7 @@
 
 import os
 import sys
-import cv2
+import skimage.transform as sktransform
 import numpy as np
 import scipy.fftpack
 
@@ -16,13 +16,14 @@ def phash(image, hash_size=8, highfreq_factor=4):
     """
         Perceptual Hash computation.
         Implementation follows http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
-        @image must be a PIL instance.
+        @image must be 2d numpy array representing a greyscale image
         (Taken from `imagehash` library)
     """
-    img_size = hash_size * highfreq_factor
+    if len(image.shape) != 2:
+        raise Exception('!! image must be two dimensional')
     
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    image = cv2.resize(image, (img_size, img_size))
+    img_size = hash_size * highfreq_factor
+    image = sktransform.resize(image, (img_size, img_size))
     
     dct = scipy.fftpack.dct(scipy.fftpack.dct(image, axis=0), axis=1)
     dctlowfreq = dct[:hash_size, :hash_size]

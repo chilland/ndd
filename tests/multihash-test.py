@@ -1,12 +1,11 @@
 import sys
-import cv2
-
+import skimage.io as skio
 import ndd
 
-orig1 = cv2.imread('./data/orig1.jpg')
-orig2 = cv2.imread('./data/orig2.jpg')
-orig3 = cv2.imread('./data/orig3.jpg')
-dup1  = cv2.imread('./data/dup1.jpg')
+orig1 = skio.imread('./data/orig1.jpg', as_grey=True)
+orig2 = skio.imread('./data/orig2.jpg', as_grey=True)
+orig3 = skio.imread('./data/orig3.jpg', as_grey=True)
+dup1  = skio.imread('./data/dup1.jpg', as_grey=True)
 
 # Test from scratch
 nh = ndd.Multihash([ndd.Hashlib(), ndd.Imagehash()])
