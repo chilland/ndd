@@ -1,6 +1,6 @@
 ### Near-duplicate detection
 
-Module for near-duplicate detection, eg for images
+Module for near-duplicate detection (esp for images)
 
  - Allows pluggable hash functions, which can be evaluated in a hierarchy from fast to slow.
  - Eventually would be good to drop CNN-feature cosine distance as a robust "hash".
@@ -11,4 +11,3 @@ Module for near-duplicate detection, eg for images
 #### TO DO
 
  - Return distance for non-exact queries
- - Add Dockerized version
