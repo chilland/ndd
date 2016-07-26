@@ -12,8 +12,8 @@ class apiModel():
     def _get_image(self, url):
         return skio.imread(url, as_grey=True)
         
-    def predict_api(self, url):
-        res = self.nh.query(self._get_image(url))
+    def predict_api(self, **kwargs):
+        res = self.nh.query(self._get_image(kwargs['url']))
         return {
             'label': res.has_match,
             'score': res.has_match, # !! Return distance for non-exact queries

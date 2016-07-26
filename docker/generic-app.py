@@ -20,6 +20,7 @@
 
 from __future__ import division
 import sys
+import json
 import argparse
 import logging
 from flask import Flask, make_response, jsonify
@@ -44,7 +45,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='Generic classifier')
+    parser = argparse.ArgumentParser(description=config['description'])
     parser._optionals.title = 'Options'
     parser.add_argument('-p', '--port', help='Specify port for API to listen on.',  type=str, required=False, default=5000)
     parser.add_argument('-mf', '--model-file', help='Specify model file.', type=str, required=True)
@@ -54,16 +55,18 @@ def parse_arguments():
 class ClassifierAPI(Resource):
     def __init__(self, **kwargs):
         self.model = kwargs['model']
+        self.config = kwargs['config']
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('url', location='json')
+        
+        for arg in self.config['reqparse']:
+            self.reqparse.add_argument(arg['field'], location=arg['location'])
 
         super(ClassifierAPI, self).__init__()
 
     def post(self):
         args = self.reqparse.parse_args()
         try:
-            tmp = model.predict_api(args['url'])
-            return tmp
+            return model.predict_api(**args)
         except Exception as e:
             logger.info(e)
             return {}
@@ -85,6 +88,8 @@ def not_found(error):
     
 
 if __name__ == '__main__':
+    config = json.load(open('/src/config.json'))
+    
     logger.info('Starting service.')
     start_args = parse_arguments()
     port = start_args.port
@@ -93,7 +98,11 @@ if __name__ == '__main__':
     model = apiModel(start_args.model_file)
     logger.info('Done loading model.')
     
-    api.add_resource(ClassifierAPI, '/api/score', resource_class_kwargs={'model' : model})
+    api.add_resource(ClassifierAPI, '/api/score', resource_class_kwargs={
+        'model' : model,
+        'config' : config
+    })
+    
     api.add_resource(HealthCheck, '/api/health')
     
     http_server = HTTPServer(WSGIContainer(app))

@@ -1,0 +1,9 @@
+{
+    "description" : "Near-duplicate detection",
+    "reqparse" : [
+        {
+            "field" : "url",
+            "location" : "json"
+        }
+    ]
+}

@@ -2,10 +2,10 @@
 
 echo "trying image in index"
 curl -XPOST -H "Content-Type:application/json" http://localhost:5000/api/score -d '{
-    "url" : "https://pbs.twimg.com/profile_images/551143684671291392/Nx_lx21L_400x400.jpeg"
+    "url" : "/src/data/pos.jpg"
 }'
 
 echo "trying image not in index"
 curl -XPOST -H "Content-Type:application/json" http://localhost:5000/api/score -d '{
-    "url" : "https://avatars1.githubusercontent.com/u/1774155?v=3&s=200"
+    "url" : "/src/data/neg.jpg"
 }'
