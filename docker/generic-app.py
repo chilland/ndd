@@ -1,22 +1,4 @@
-'''
-    Generic Classifier Service
-    ---------------------------
-
-    To run:
-        python generic-app.py -mv /path/to/model/directory
-
-    Accepts urls to images in the format
-        {
-            "url" : "http://somewhere.com/image.jpg"
-        }
-
-    Returns
-        {
-            "label" : ... # Whether or not there is a match
-            "score" : ... # Whether or not there is a match
-            "model" : ... # Model that found the match
-        }
-'''
+''' See README.md for information '''
 
 from __future__ import division
 import sys
