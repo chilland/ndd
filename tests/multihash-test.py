@@ -55,3 +55,15 @@ assert(~nh.query(orig2).has_match) # No match
 assert(nh.query(dup1).has_match) # Near-duplicate
 
 print "2/2 Success!"
+
+# --
+
+print 'Saving all three'
+nh = ndd.Multihash([ndd.Hashlib(), ndd.Imagehash(), ndd.ConvNet(model_path='./models/vgg16')])
+nh.add('orig1', orig1)
+nh.add('orig3', orig3)
+nh.save('dbs/multihash-3')
+
+# -- 
+
+print 'Success !'

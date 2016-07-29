@@ -6,7 +6,7 @@ import skimage.io as skio
 class apiModel():
     model_name = '%s-ndd-0.0.1'
     
-    def __init__(self, db_path, **kwargs):
+    def __init__(self, db_path):
         self.nh = ndd.Multihash([
             ndd.Hashlib(), 
             ndd.Imagehash(),
