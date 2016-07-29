@@ -1,5 +1,5 @@
 """
-    hashlib.py
+    hashlibDB.py
 
     Exact hashing via `hashlib.md5`
 """

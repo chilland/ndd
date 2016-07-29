@@ -11,3 +11,4 @@ Module for near-duplicate detection (esp for images)
 #### TO DO
 
  - Return distance for non-exact queries
+ - Remove repeated code from `imagehashDB.py` and `convnetDB.py`

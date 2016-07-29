@@ -1,49 +1,52 @@
 """
-    imagehashDB.py
-    
-    Perceptual hashing via `imagehash` library
+   convnetDB.py
+   
+   Deep convolutional neural network "hashing" (via `keras` library)
 """
 
 import os
 import sys
 import numpy as np
 import skimage.transform as sktransform
-import scipy.fftpack
+from keras.models import model_from_json
 
 import ndd
 
-class Imagehash:
-    method = 'phash'
+class ConvNet:
+    method = 'vgg16_fc7'
+    structure_name = 'Keras_model_structure.json'
+    weights_name = 'Keras_model_weights.h5'
     
-    def __init__(self, db_path=None, verbose=False):
+    def __init__(self, model_path, db_path=None, verbose=False):
+        self.model = self._load_model(model_path)
         self.verbose = verbose
         if db_path:
             self.load(db_path)
         else:
             self.ids, self.hashes = np.array([]), None
     
-    def _dist_function(self, x, y):
-        """ Hamming distance """
-        return (x != y).sum(axis=1)
-    
-    def _hash_function(self, img, hash_size=8, highfreq_factor=4):
+    def _load_model(self, model_path):
         """ 
-            Perceptual hash
-            Implementation follows http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
-            @img must be 2d numpy array representing a greyscale img
-            (Taken from `imghash` library)
+            
         """
-        if len(img.shape) != 2:
-            raise Exception('!! img must be two dimensional')
+        model = model_from_json(open(os.path.join(model_path, self.structure_name)).read())
+        model.load_weights(os.path.join(model_path, self.weights_name))
+        return model
+    
+    def _dist_function(self, x, y):
+        """ Cosine distance """
+        return 1 - y.dot(x)
+    
+    def _hash_function(self, img):
+        """ CNN featurization """
+        if self.verbose:
+            print >> sys.stderr, "!! ALWAYS DOUBLE CHECK IMAGE PREPROCESSING"
         
-        img_size = hash_size * highfreq_factor
-        img = sktransform.resize(img, (img_size, img_size))
+        img = sktransform.resize(img, self.model.input_shape[2:]) # Resize image to fit into network
+        img = img.transpose((2, 0, 1)) # Transpose to appropriate shape
+        img = img.astype('float32') / 255 # Scale RGB values
         
-        dct = scipy.fftpack.dct(scipy.fftpack.dct(img, axis=0), axis=1)
-        dctlowfreq = dct[:hash_size, :hash_size]
-        med = np.median(dctlowfreq)
-        diff = dctlowfreq > med
-        return np.hstack(diff)
+        return self.model.predict(img[np.newaxis,...]).squeeze()
     
     def add(self, id, data):
         if id not in self.ids:
@@ -55,7 +58,7 @@ class Imagehash:
                 self.hashes = np.array([hsh])
         else:
             print >> sys.stderr, '!! `id` already exists'
-        
+    
     def query(self, data, threshold=0, **kwargs):
         dists = self._dist_function(self._hash_function(data), self.hashes)
         if np.min(dists) <= threshold:
