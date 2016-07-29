@@ -23,7 +23,7 @@ class Multihash:
     def load(self, db_path):
         subdirs = sorted(os.listdir(db_path))
         for i, hash_ in enumerate(self.hashes):
-            hash_.load(os.path.join(db_path, subdirs[i]))
+            hash_.load(db_path=os.path.join(db_path, subdirs[i]))
         
     def save(self, db_path):
         for i, hash_ in enumerate(self.hashes):

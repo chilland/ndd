@@ -31,7 +31,7 @@ assert(nh.query(dup1).has_match) # Near-duplicate
 nh.save('dbs/convnet')
 
 # Test from load
-nh = ndd.ConvNet(model_path=model_path, db_path='dbs/convnet')
+nh = ndd.ConvNet(db_path='dbs/convnet')
 assert(nh.query(orig1).has_match) # Exact match
 assert(~nh.query(orig2).has_match) # No match
 assert(nh.query(dup1).has_match) # Near-duplicate
