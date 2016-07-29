@@ -7,7 +7,7 @@
 import os
 import sys
 import numpy as np
-import skimage.transform as sktransform
+import skimage.transform
 from keras.models import model_from_json
 
 import ndd
@@ -36,12 +36,17 @@ class ConvNet:
         """ CNN featurization """
         if self.verbose:
             print >> sys.stderr, "!! ALWAYS DOUBLE CHECK IMAGE PREPROCESSING"
+        # !! Am I supposed to be centering and scaling here?
         
-        img = sktransform.resize(img, self.model.input_shape[2:]) # Resize image to fit into network
-        img = img.transpose((2, 0, 1)) # Transpose to appropriate shape
-        img = img.astype('float32') / 255 # Scale RGB values
+        # Resize image to fit into network (and scale to [0,1])
+        img = skimage.transform.resize(img, self.model.input_shape[2:]) 
         
-        return self.model.predict(img[np.newaxis,...]).squeeze()
+        # Transpose to appropriate shape
+        img = img.transpose((2, 0, 1))
+        
+        pred = self.model.predict(img[np.newaxis,...]).squeeze()
+        pred /= np.sqrt((pred ** 2).sum())
+        return pred
     
     def add(self, id, data):
         if id not in self.ids:
@@ -54,8 +59,9 @@ class ConvNet:
         else:
             print >> sys.stderr, '!! `id` already exists'
     
-    def query(self, data, threshold=0, **kwargs):
+    def query(self, data, threshold=0.03, **kwargs):
         dists = self._dist_function(self._hash_function(data), self.hashes)
+        print dists
         if np.min(dists) <= threshold:
             return ndd.match(**{
                 "matches" : set(self.ids[dists <= threshold]),

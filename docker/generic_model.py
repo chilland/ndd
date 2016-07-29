@@ -4,13 +4,13 @@ import ndd
 import skimage.io as skio
 
 class apiModel():
-    model_name = '%s-ndd-0.0.1'
+    model_name = '%s-ndd-0.0.0'
     
     def __init__(self, db_path):
         self.nh = ndd.Multihash([
             ndd.Hashlib(), 
             ndd.Imagehash(),
-            ndd.ConvNet()
+            # ndd.ConvNet()
         ], db_path)
     
     def _get_image(self, url):
