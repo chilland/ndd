@@ -26,8 +26,9 @@ class ConvNet:
             self.ids, self.hashes = np.array([]), None
     
     def _load_model(self, model_path):
-        """ 
-            
+        """
+            @model_path needs to point to directory containing Keras model, 
+                w/ JSON and H5 data named as in `structure_name` and `weights_name`
         """
         model = model_from_json(open(os.path.join(model_path, self.structure_name)).read())
         model.load_weights(os.path.join(model_path, self.weights_name))

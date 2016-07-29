@@ -1,12 +1,14 @@
+#!/usr/bin/env python
+
 import sys
 import skimage.io as skio
 
 import ndd
 
-orig1 = skio.imread('./data/orig1.jpg', as_grey=True)
-orig2 = skio.imread('./data/orig2.jpg', as_grey=True)
-orig3 = skio.imread('./data/orig3.jpg', as_grey=True)
-dup1  = skio.imread('./data/dup1.jpg', as_grey=True)
+orig1 = skio.imread('./data/orig1.jpg')
+orig2 = skio.imread('./data/orig2.jpg')
+orig3 = skio.imread('./data/orig3.jpg')
+dup1  = skio.imread('./data/dup1.jpg')
 
 # Test from scratch
 nh = ndd.Imagehash()
@@ -24,3 +26,5 @@ nh = ndd.Imagehash('dbs/imagehash')
 assert(nh.query(orig1).has_match) # Exact match
 assert(~nh.query(orig2).has_match) # No match
 assert(nh.query(dup1).has_match) # Near-duplicate
+
+print "Success!"

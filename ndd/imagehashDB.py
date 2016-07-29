@@ -7,7 +7,8 @@
 import os
 import sys
 import numpy as np
-import skimage.transform as sktransform
+import skimage.color
+import skimage.transform
 import scipy.fftpack
 
 import ndd
@@ -33,11 +34,13 @@ class Imagehash:
             @img must be 2d numpy array representing a greyscale img
             (Taken from `imghash` library)
         """
+        img = skimage.color.rgb2grey(img)
+        
         if len(img.shape) != 2:
             raise Exception('!! img must be two dimensional')
         
         img_size = hash_size * highfreq_factor
-        img = sktransform.resize(img, (img_size, img_size))
+        img = skimage.transform.resize(img, (img_size, img_size))
         
         dct = scipy.fftpack.dct(scipy.fftpack.dct(img, axis=0), axis=1)
         dctlowfreq = dct[:hash_size, :hash_size]
