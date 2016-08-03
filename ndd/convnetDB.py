@@ -64,6 +64,7 @@ class ConvNet:
         print dists
         if np.min(dists) <= threshold:
             return ndd.match(**{
+                "min_dist" : np.min(dists),
                 "matches" : set(self.ids[dists <= threshold]),
                 "method" : self.method
             })

@@ -37,6 +37,7 @@ class Hashlib:
         matches = self.hashes.get(hsh, None)
         if matches:
             return ndd.match(**{
+                "min_dist" : 0,
                 "matches" : matches,
                 "method" : self.method    
             })

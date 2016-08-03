@@ -10,7 +10,7 @@ class apiModel():
         self.nh = ndd.Multihash([
             ndd.Hashlib(), 
             ndd.Imagehash(),
-            # ndd.ConvNet()
+            # ndd.ConvNet() # !! No GPU support yet
         ], db_path)
     
     def _get_image(self, url):
@@ -20,6 +20,6 @@ class apiModel():
         res = self.nh.query(self._get_image(kwargs['url']))
         return {
             'label': res.has_match,
-            'score': res.has_match, # !! Return distance for non-exact queries
+            'score': res.min_dist,
             'model': self.model_name % res.method
         }

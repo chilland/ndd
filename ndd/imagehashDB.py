@@ -63,6 +63,7 @@ class Imagehash:
         dists = self._dist_function(self._hash_function(data), self.hashes)
         if np.min(dists) <= threshold:
             return ndd.match(**{
+                "min_dist" : np.min(dists),
                 "matches" : set(self.ids[dists <= threshold]),
                 "method" : self.method
             })
