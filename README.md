@@ -2,13 +2,15 @@
 
 Module for near-duplicate detection (esp for images)
 
- - Allows pluggable hash functions, which can be evaluated in a hierarchy from fast to slow.
- - Eventually would be good to drop CNN-feature cosine distance as a robust "hash".
- - Would also be good to implement backends that use something like `FALCONN` or `nmslib` for fast lookup.
- - Would also be good to implement out-of-core backends.
-
+Allows pluggable hash functions, which can be evaluated hierarchically.
 
 #### TO DO
 
- - Remove repeated code from `imagehashDB.py` and `convnetDB.py`
- - Figure out centering/scaling issues with `convnetDB.py`
+ - Bugs
+     - Figure out centering/scaling issues with `convnetDB.py`
+     - Remove repeated code from `imagehashDB.py` and `convnetDB.py`
+     - Allow Docker images to access GPU -- otherwise, `convnetDB.py` is going to be too slow...
+ 
+ - Features
+     - Would also be good to implement backends that use something like `FALCONN` or `nmslib` for fast lookup.
+     - Would also be good to implement out-of-core backends.
