@@ -7,3 +7,24 @@
         }
     ]
 }
+
+
+{
+    "image_name" : "keras_cnn",
+    "description" : "Near-duplicate detection",
+    
+    "class" : "../keras-model.py",
+    "model" : "../models/dummy-model",
+    "model_name" : "dummy-model-v00",
+    "bootstrap" : "../bootstrap.sh",
+    "additional" : ["../requirements.txt", "../test_api.sh", "../data", "../README.md"],
+    
+    
+    "rest_args" : [
+        {
+            "field" : "url",
+            "location" : "json",
+            "type" : "str"
+        }
+    ]
+}
