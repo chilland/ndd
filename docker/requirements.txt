@@ -1,4 +1,4 @@
-Keras==1.0.6
+git+git://github.com/fchollet/keras@84f435e24b18352d6c9efa098061d316d5be516e
 scikit-image==0.12.3
 Flask==0.10.1
 Flask-RESTful==0.3.5
