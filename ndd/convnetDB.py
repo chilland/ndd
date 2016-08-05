@@ -15,8 +15,6 @@ from ndd.convnet_resources import preprocess_input, VGG16
 
 class ConvNet:
     method = 'vgg16_fc7'
-    structure_name = 'Keras_model_structure.json'
-    weights_name = 'Keras_model_weights.h5'
     img_size = 224
     
     def __init__(self, db_path=None, model_path=None, verbose=False):
@@ -68,36 +66,14 @@ class ConvNet:
             })
         else:
             return ndd.match(method=self.method)
-    
-    def _load_model(self, dirpath):
-        """
-            @dirpath needs to point to directory containing Keras model, 
-                w/ JSON and H5 data named as in `structure_name` and `weights_name`
-        """
-        model = model_from_json(open(os.path.join(dirpath, self.structure_name)).read())
-        model.load_weights(os.path.join(dirpath, self.weights_name))
-        return model
-    
+        
     def load(self, db_path):
         self.ids = np.load(os.path.join(db_path, 'ids.npy'))
         self.hashes = np.load(os.path.join(db_path, 'hashes.npy'))
         
-        # Also try to load model
-        try:
-            self.model = self._load_model(db_path)
-        except:
-            pass
-    
-    def _save_model(self, dirpath):
-        open(os.path.join(dirpath, self.structure_name), 'w').write(self.model.to_json())
-        self.model.save_weights(os.path.join(dirpath, self.weights_name), overwrite=True)
-    
     def save(self, db_path):
         if not os.path.exists(db_path):
             os.makedirs(db_path)
         
         np.save(os.path.join(db_path, 'ids'), self.ids)
         np.save(os.path.join(db_path, 'hashes'), self.hashes)
-        
-        # Also save model in new location
-        self._save_model(db_path)

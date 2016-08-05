@@ -8,7 +8,7 @@ class apiModel():
         self.nh = ndd.Multihash([
             ndd.Hashlib(), 
             ndd.Imagehash(),
-            # ndd.ConvNet() # !! No GPU support yet
+            ndd.ConvNet() # !! No GPU support yet
         ], db_path)
     
     def predict_api(self, **kwargs):
