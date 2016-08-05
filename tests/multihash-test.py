@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 
 import sys
-import skimage.io as skio
-
 import ndd
 
-orig1 = skio.imread('./data/orig1.jpg')
-orig2 = skio.imread('./data/orig2.jpg')
-orig3 = skio.imread('./data/orig3.jpg')
-dup1  = skio.imread('./data/dup1.jpg')
+orig1 = ndd.utils.load_img('./data/orig1.jpg')
+orig2 = ndd.utils.load_img('./data/orig2.jpg')
+orig3 = ndd.utils.load_img('./data/orig3.jpg')
+dup1  = ndd.utils.load_img('./data/dup1.jpg')
 
 # --
 

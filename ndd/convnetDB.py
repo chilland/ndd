@@ -7,15 +7,17 @@
 import os
 import sys
 import numpy as np
-import skimage.transform
+from PIL import Image
 from keras.models import model_from_json
 
 import ndd
+from ndd.convnet_resources import preprocess_input, VGG16
 
 class ConvNet:
     method = 'vgg16_fc7'
     structure_name = 'Keras_model_structure.json'
     weights_name = 'Keras_model_weights.h5'
+    img_size = 224
     
     def __init__(self, db_path=None, model_path=None, verbose=False):
         self.verbose = verbose
@@ -25,8 +27,7 @@ class ConvNet:
         else:            
             self.ids, self.hashes, self.model = np.array([]), None, None
         
-        if model_path and not self.model:
-            self.model = self._load_model(model_path)
+        self.model = VGG16()
     
     def _dist_function(self, x, y):
         """ Cosine distance """
@@ -36,15 +37,13 @@ class ConvNet:
         """ CNN featurization """
         if self.verbose:
             print >> sys.stderr, "!! ALWAYS DOUBLE CHECK IMAGE PREPROCESSING"
-        # !! Am I supposed to be centering and scaling here?
+
+        img = img.resize((self.img_size, self.img_size), Image.ANTIALIAS)
+        img = ndd.utils.img_to_array(img)
+        img = np.expand_dims(img, axis=0)
+        img = preprocess_input(img)
         
-        # Resize image to fit into network (and scale to [0,1])
-        img = skimage.transform.resize(img, self.model.input_shape[2:]) 
-        
-        # Transpose to appropriate shape
-        img = img.transpose((2, 0, 1))
-        
-        pred = self.model.predict(img[np.newaxis,...]).squeeze()
+        pred = self.model.predict(img).squeeze()
         pred /= np.sqrt((pred ** 2).sum())
         return pred
     
@@ -61,7 +60,6 @@ class ConvNet:
     
     def query(self, data, threshold=0.03, **kwargs):
         dists = self._dist_function(self._hash_function(data), self.hashes)
-        print dists
         if np.min(dists) <= threshold:
             return ndd.match(**{
                 "min_dist" : np.min(dists),

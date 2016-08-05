@@ -15,15 +15,18 @@ class Hashlib:
     method = 'md5'
     
     def __init__(self, db_path=None):
-        self.hash_function = lambda x: md5(x).hexdigest()
         if db_path:
             self.load(db_path)
         else:
             self.ids, self.hashes = set([]), {}
     
+    def _hash_function(self, x):
+        x = ndd.utils.img_to_array(x).copy(order='C')
+        return md5(x).hexdigest()
+    
     def add(self, id, data):
         if id not in self.ids:
-            hsh = self.hash_function(data)
+            hsh = self._hash_function(data)
             
             curr = self.hashes.get(hsh, set([]))
             curr.add(id)
@@ -33,7 +36,7 @@ class Hashlib:
             print >> sys.stderr, '!! `id` already exists'
                 
     def query(self, data, **kwargs):
-        hsh = self.hash_function(data)
+        hsh = self._hash_function(data)
         matches = self.hashes.get(hsh, None)
         if matches:
             return ndd.match(**{

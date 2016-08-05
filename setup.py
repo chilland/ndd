@@ -14,7 +14,7 @@ setup(
 	description='Near Duplicate Detection',
 	keywords=['ndd'],
 	license='ALV2',
-	packages=['ndd'],
+	packages=['ndd', 'ndd.convnet_resources'],
 	version="0.0.1"
 )
 
