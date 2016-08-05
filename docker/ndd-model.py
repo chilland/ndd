@@ -4,9 +4,8 @@ import ndd
 import skimage.io as skio
 
 class apiModel():
-    model_name = '%s-ndd-0.0.0'
-    
-    def __init__(self, db_path):
+    def __init__(self, db_path, model_name):
+        self.model_name = model_name
         self.nh = ndd.Multihash([
             ndd.Hashlib(), 
             ndd.Imagehash(),
@@ -21,5 +20,5 @@ class apiModel():
         return {
             'label': res.has_match,
             'score': res.min_dist,
-            'model': self.model_name % res.method
+            'model': '%s-%s' % (self.model_name, res.method)
         }

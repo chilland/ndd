@@ -6,7 +6,7 @@
     "model" : "../dbs/multihash",
     "model_name" : "multihash-v00",
     "bootstrap" : "../bootstrap.sh",
-    "additional" : ["../requirements.txt", "../test_api.sh", "../dbs", "../README.md"],
+    "additional" : ["../requirements.txt", "../test_api.sh", "../dbs", "../data", "../README.md"],
     
     "rest_args" : [
         {
