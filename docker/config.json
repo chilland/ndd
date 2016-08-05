@@ -1,24 +1,12 @@
 {
-    "description" : "Near-duplicate detection",
-    "reqparse" : [
-        {
-            "field" : "url",
-            "location" : "json"
-        }
-    ]
-}
-
-
-{
-    "image_name" : "keras_cnn",
+    "image_name" : "ndd",
     "description" : "Near-duplicate detection",
     
-    "class" : "../keras-model.py",
-    "model" : "../models/dummy-model",
-    "model_name" : "dummy-model-v00",
+    "class" : "../ndd-model.py",
+    "model" : "../dbs/multihash",
+    "model_name" : "multihash-v00",
     "bootstrap" : "../bootstrap.sh",
-    "additional" : ["../requirements.txt", "../test_api.sh", "../data", "../README.md"],
-    
+    "additional" : ["../requirements.txt", "../test_api.sh", "../dbs", "../README.md"],
     
     "rest_args" : [
         {
