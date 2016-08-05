@@ -3,10 +3,17 @@
     "description" : "Near-duplicate detection",
     
     "class" : "../ndd-model.py",
-    "model" : "../dbs/multihash",
-    "model_name" : "multihash-v00",
+    "model" : "../dbs/multihash-3",
+    "model_name" : "multihash-3",
     "bootstrap" : "../bootstrap.sh",
-    "additional" : ["../requirements.txt", "../test_api.sh", "../dbs", "../data", "../README.md"],
+    "additional" : [
+        "../requirements.txt",
+        "../test_api.sh",
+        "../dbs",
+        "../data",
+        "../README.md",
+        "/Users/bjohnson/.keras"
+    ],
     
     "rest_args" : [
         {

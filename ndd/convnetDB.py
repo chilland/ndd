@@ -8,7 +8,6 @@ import os
 import sys
 import numpy as np
 from PIL import Image
-from keras.models import model_from_json
 
 import ndd
 from ndd.convnet_resources import preprocess_input, VGG16
