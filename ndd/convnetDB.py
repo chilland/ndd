@@ -55,7 +55,7 @@ class ConvNet:
         else:
             print >> sys.stderr, '!! `id` already exists'
     
-    def query(self, data, threshold=0.03, **kwargs):
+    def query(self, data, threshold=0.07, **kwargs):
         dists = self._dist_function(self._hash_function(data), self.hashes)
         if np.min(dists) <= threshold:
             return ndd.match(**{
