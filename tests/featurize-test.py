@@ -29,7 +29,7 @@ if __name__ == "__main__":
     db = h5py.File(args.outpath)
 
     for file in glob(args.inpath):
-        if verbose:
+        if args.verbose:
             print >> sys.stderr, file
         
         img = ndd.utils.load_img(file)
