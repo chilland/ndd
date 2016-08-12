@@ -29,14 +29,18 @@ if __name__ == "__main__":
 
     files = glob(args.inpath)
     print >> sys.stderr, 'featurizing %d images from %s into %s' % (len(files), args.inpath, args.outpath) 
+    
     for file in files:
-        if args.verbose:
-            print >> sys.stderr, file
         
         # Check if all hashes exist
         dataset_names = ['%s/%s' % (file, method) for method in nh.methods]
         if np.all([dataset_name in db for dataset_name in dataset_names]):
+            if args.verbose:
+                print >> sys.stderr, 'skipping %s' % file
             continue
+        else:
+            if args.verbose:
+                print >> sys.stderr, 'featurizing %s' % file
         
         img = ndd.utils.load_img(file)
         hashes = nh.hash_function(img)
