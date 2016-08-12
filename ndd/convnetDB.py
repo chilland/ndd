@@ -22,7 +22,7 @@ class ConvNet:
         if db_path:
             self.load(db_path)
         else:            
-            self.ids, self.hashes, self.model = np.array([]), None, None
+            self.ids, self.hashes = np.array([]), None
         
         self.model = VGG16()
     
