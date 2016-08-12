@@ -36,7 +36,7 @@ print "1/2 Success!"
 print '2/2 (ConvNet) Starting'
 
 # Test from scratch
-nh = ndd.Multihash([ndd.Hashlib(), ndd.ConvNet(model_path='./models/vgg16')])
+nh = ndd.Multihash([ndd.Hashlib(), ndd.ConvNet()])
 nh.add('orig1', orig1)
 nh.add('orig3', orig3)
 
@@ -57,7 +57,7 @@ print "2/2 Success!"
 # --
 
 print 'Saving all three'
-nh = ndd.Multihash([ndd.Hashlib(), ndd.Imagehash(), ndd.ConvNet(model_path='./models/vgg16')])
+nh = ndd.Multihash([ndd.Hashlib(), ndd.Imagehash(), ndd.ConvNet()])
 nh.add('orig1', orig1)
 nh.add('orig3', orig3)
 nh.save('dbs/multihash-3')
