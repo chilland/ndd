@@ -26,7 +26,7 @@ class Imagehash:
         """ Hamming distance """
         return (x != y).sum(axis=1)
     
-    def _hash_function(self, img, hash_size=8, highfreq_factor=4):
+    def hash_function(self, img, hash_size=8, highfreq_factor=4):
         """ 
             Perceptual hash
             Implementation follows http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
@@ -46,7 +46,7 @@ class Imagehash:
     
     def add(self, id, data):
         if id not in self.ids:
-            hsh = self._hash_function(data)
+            hsh = self.hash_function(data)
             self.ids = np.append(self.ids, id)
             if np.any(self.hashes):
                 self.hashes = np.vstack((self.hashes, hsh))
@@ -56,7 +56,7 @@ class Imagehash:
             print >> sys.stderr, '!! `id` already exists'
         
     def query(self, data, threshold=0, **kwargs):
-        dists = self._dist_function(self._hash_function(data), self.hashes)
+        dists = self._dist_function(self.hash_function(data), self.hashes)
         if np.min(dists) <= threshold:
             return ndd.match(**{
                 "min_dist" : np.min(dists),

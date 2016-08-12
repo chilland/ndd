@@ -30,7 +30,7 @@ class ConvNet:
         """ Cosine distance """
         return 1 - y.dot(x)
     
-    def _hash_function(self, img):
+    def hash_function(self, img):
         """ CNN featurization """
         if self.verbose:
             print >> sys.stderr, "!! ALWAYS DOUBLE CHECK IMAGE PREPROCESSING"
@@ -46,7 +46,7 @@ class ConvNet:
     
     def add(self, id, data):
         if id not in self.ids:
-            hsh = self._hash_function(data)
+            hsh = self.hash_function(data)
             self.ids = np.append(self.ids, id)
             if np.any(self.hashes):
                 self.hashes = np.vstack((self.hashes, hsh))
@@ -56,7 +56,7 @@ class ConvNet:
             print >> sys.stderr, '!! `id` already exists'
     
     def query(self, data, threshold=0.05, **kwargs):
-        dists = self._dist_function(self._hash_function(data), self.hashes)
+        dists = self._dist_function(self.hash_function(data), self.hashes)
         if np.min(dists) <= threshold:
             return ndd.match(**{
                 "min_dist" : np.min(dists),
@@ -65,7 +65,7 @@ class ConvNet:
             })
         else:
             return ndd.match(method=self.method)
-        
+    
     def load(self, db_path):
         self.ids = np.load(os.path.join(db_path, 'ids.npy'))
         self.hashes = np.load(os.path.join(db_path, 'hashes.npy'))

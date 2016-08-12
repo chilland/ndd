@@ -8,6 +8,9 @@ class Multihash:
         if db_path:
             self.load(db_path)
     
+    def hash_function(self, data, **kwargs):
+        return tuple([hash_.hash_function(data) for hash_ in self.hashes])
+    
     def add(self, id, data):
         for hash_ in self.hashes:
             hash_.add(id, data)
