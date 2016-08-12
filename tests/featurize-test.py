@@ -23,19 +23,24 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
-    print >> sys.stderr, 'featurizing %s -> %s' % (args.inpath, args.outpath) 
     
     nh = ndd.Multihash([ndd.Hashlib(), ndd.Imagehash(), ndd.ConvNet()])
     db = h5py.File(args.outpath)
 
-    for file in glob(args.inpath):
+    files = glob(args.inpath)
+    print >> sys.stderr, 'featurizing %d images from %s into %s' % (len(files), args.inpath, args.outpath) 
+    for file in files:
         if args.verbose:
             print >> sys.stderr, file
         
+        # Check if all hashes exist
+        dataset_names = ['%s/%s' % (file, method) for method in nh.methods]
+        if np.all([dataset_name in db for dataset_name in dataset_names]):
+            continue
+        
         img = ndd.utils.load_img(file)
         hashes = nh.hash_function(img)
-        for method,hash_ in zip(nh.methods, hashes):
-            dataset_name = '%s/%s' % (file, method)
+        for dataset_name,hash_ in zip(dataset_names, hashes):
             if dataset_name not in db:
                 _ = db.create_dataset(dataset_name, data=hash_)
             else:
