@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+'''
+    imagehash-test.py
+    
+    Test Imagehash class
+'''
+
 import sys
 import ndd
 

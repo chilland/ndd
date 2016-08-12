@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+'''
+    multihash-test.py
+    
+    Test Multihash class
+'''
+
+
 import sys
 import ndd
 

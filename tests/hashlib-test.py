@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+'''
+    hashlib-test.py
+    
+    Test Hashlib class
+'''
+
 import sys
 import ndd
 
