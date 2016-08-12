@@ -7,6 +7,7 @@
     
 '''
 
+import os
 import sys
 import ndd
 import h5py
@@ -18,20 +19,34 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--inpath', type=str, default='./data/*jpg')
     parser.add_argument('--outpath', type=str, default='./db.h5')
+    parser.add_argument('--verbose', action="store_true")
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_args()
-    print >> sys.stderr, 'featurizing %s -> %s' % (args.inpath, args.outpath) 
     
     nh = ndd.Multihash([ndd.Hashlib(), ndd.Imagehash(), ndd.ConvNet()])
     db = h5py.File(args.outpath)
 
-    for file in glob(args.inpath):
-        img = ndd.utils.load_img(file)
+    files = glob(args.inpath)
+    print >> sys.stderr, 'featurizing %d images from %s into %s' % (len(files), args.inpath, args.outpath) 
+    
+    for file in files:
+        basename = os.path.basename(file)
+        
+        # Check if all hashes exist
+        dataset_names = ['%s/%s' % (basename, method) for method in nh.methods]
+        if np.all([dataset_name in db for dataset_name in dataset_names]):
+            if args.verbose:
+                print >> sys.stderr, 'skipping %s' % basename
+            continue
+        else:
+            if args.verbose:
+                print >> sys.stderr, 'featurizing %s' % basename
+        
+        img = ndd.utils.load_img(basename)
         hashes = nh.hash_function(img)
-        for method,hash_ in zip(nh.methods, hashes):
-            dataset_name = '%s/%s' % (file, method)
+        for dataset_name,hash_ in zip(dataset_names, hashes):
             if dataset_name not in db:
                 _ = db.create_dataset(dataset_name, data=hash_)
             else:
