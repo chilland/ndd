@@ -9,16 +9,8 @@ orig2 = ndd.utils.load_img('./data/orig2.jpg')
 orig3 = ndd.utils.load_img('./data/orig3.jpg')
 dup1  = ndd.utils.load_img('./data/dup1.jpg')
 
-# Check that model files exist
-model_path = './models/vgg16'
-if not os.path.exists(os.path.join(model_path, 'Keras_model_weights.h5')):
-    raise Exception((
-        '\n\n\t Keras_model_weights.h5 does not exist! \n'
-        '\t Download them at `https://drive.google.com/file/d/0Bz7KyqmuGsilT0J5dmRCM0ROVHc/view\?usp\=sharing`'
-    ))
-
 # Test from scratch
-nh = ndd.ConvNet(model_path=model_path)
+nh = ndd.ConvNet()
 nh.add('orig1', orig1)
 nh.add('orig3', orig3)
 

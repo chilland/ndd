@@ -19,7 +19,7 @@ class ConvNet:
     weights_name = 'Keras_model_weights.h5'
     img_size = 224
     
-    def __init__(self, db_path=None, model_path=None, verbose=False):
+    def __init__(self, db_path=None, verbose=False):
         self.verbose = verbose
                 
         if db_path:
