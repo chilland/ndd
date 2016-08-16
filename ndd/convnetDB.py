@@ -24,7 +24,8 @@ class ConvNet:
         else:            
             self.ids, self.hashes = np.array([]), None
         
-        self.model = VGG16()
+        whole_model = VGG16(include_top=True)
+        self.model = Model(input=whole_model.input, output=whole_model.get_layer('fc2').output)
     
     def _dist_function(self, x, y):
         """ Cosine distance """

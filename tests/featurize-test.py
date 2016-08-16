@@ -44,7 +44,7 @@ if __name__ == "__main__":
             if args.verbose:
                 print >> sys.stderr, 'featurizing %s' % basename
         
-        img = ndd.utils.load_img(basename)
+        img = ndd.utils.load_img(file)
         hashes = nh.hash_function(img)
         for dataset_name,hash_ in zip(dataset_names, hashes):
             if dataset_name not in db:
