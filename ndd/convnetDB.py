@@ -11,6 +11,7 @@ from PIL import Image
 
 import ndd
 from ndd.convnet_resources import preprocess_input, VGG16
+from keras.models import Model
 
 class ConvNet:
     method = 'vgg16_fc7'
