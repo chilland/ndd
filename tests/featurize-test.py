@@ -3,7 +3,10 @@
 '''
     featurize-test.py
     
-    Test featurizing a directory of images
+    Test featurizing a directory of images.
+    
+    This is a somewhat parallel usecase to what the majority of ndd's API is 
+    designed for.  It's a common usecase, though.
     
 '''
 
