@@ -15,6 +15,6 @@ setup(
 	keywords=['ndd'],
 	license='ALV2',
 	packages=['ndd'],
-	version="0.0.1"
+	version="0.0.2"
 )
 
