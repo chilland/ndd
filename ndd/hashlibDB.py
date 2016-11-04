@@ -11,7 +11,7 @@ from hashlib import md5
 
 import ndd
 
-class Hashlib:
+class Hashlib(object):
     method = 'md5'
     
     def __init__(self, db_path=None):

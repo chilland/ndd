@@ -1,7 +1,7 @@
 import os
 import ndd
 
-class Multihash:
+class Multihash(object):
     """ Wraps multiple `ndd` hashes, checks them in order of complexity """
     def __init__(self, hashes, db_path=None):
         self.hashes = hashes

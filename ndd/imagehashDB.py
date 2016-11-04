@@ -12,7 +12,7 @@ import scipy.fftpack
 
 import ndd
 
-class Imagehash:
+class Imagehash(object):
     method = 'phash'
     
     def __init__(self, db_path=None, verbose=False):

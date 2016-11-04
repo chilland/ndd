@@ -17,7 +17,7 @@ from keras.applications.vgg16 import VGG16
 from keras.applications.vgg16 import preprocess_input
 
 
-class ConvNet:
+class ConvNet(object):
     method = 'vgg16_fc7'
     img_size = 224
 
