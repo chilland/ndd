@@ -11,6 +11,8 @@ from PIL import Image
 import urllib
 import cStringIO
 import numpy as np
+from redis import StrictRedis
+from rediscluster import StrictRedisCluster
 
 def load_img(path, grayscale=False, target_size=None):
     if path[:4] == 'http': # Allow loading from http URL
@@ -36,3 +38,29 @@ def img_to_array(img):
         raise Exception('Unsupported image shape: ', x.shape)
     return x
 
+def get_host_port(connect, default_port=80):
+    hostport = connect.split(':')
+    if len(hostport) == 2:
+        port = int(hostport[1])
+    else:
+        port = default_port
+    
+    return hostport[0], port
+
+
+def get_redis_connection(redis_service, default_port):
+    nodes = redis_service.split(',')
+    if len(nodes) == 1:
+        r_host, r_port = get_host_port(redis_service, default_port=default_port)
+        r = StrictRedis(r_host, r_port, db=0)
+        print "Single-node Redis connection established."
+    else:
+        startup_nodes = []
+        for node in nodes:
+            r_host, r_port = node.split(':')
+            startup_nodes.append({'host' : r_host, 'port' : r_port})
+        
+        r = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
+        print "Multi-node Redis connection established."
+    
+    return r

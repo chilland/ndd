@@ -14,8 +14,6 @@ orig2 = ndd.utils.load_img('./data/orig2.jpg')
 orig3 = ndd.utils.load_img('./data/orig3.jpg')
 dup1  = ndd.utils.load_img('./data/dup1.jpg')
 
-print orig1
-
 # Test from scratch
 nh = ndd.Imagehash()
 nh.add('orig1', orig1)
