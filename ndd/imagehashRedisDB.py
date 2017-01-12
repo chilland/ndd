@@ -19,6 +19,7 @@ class ImagehashRedis(ndd.Imagehash):
     def add(self, id, data):
         hsh = self.hash_function(data)
         self.con.sadd('ndd:imagehash:%s' % hsh, id)
+        return hsh
     
     def query(self, data, threshold=0, **kwargs):
         hsh = self.hash_function(data)
