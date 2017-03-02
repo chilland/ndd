@@ -32,6 +32,8 @@ class Imagehash(object):
             Implementation follows http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
             @img must be 2d numpy array representing a greyscale img
             (Taken from `imagehash` library)
+            
+            * Hash is ordered from lowest to highest frequencies
         """
         img_size = hash_size * highfreq_factor
         
