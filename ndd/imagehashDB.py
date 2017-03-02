@@ -31,7 +31,7 @@ class Imagehash(object):
             Perceptual hash
             Implementation follows http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
             @img must be 2d numpy array representing a greyscale img
-            (Taken from `imghash` library)
+            (Taken from `imagehash` library)
         """
         img_size = hash_size * highfreq_factor
         
@@ -40,8 +40,7 @@ class Imagehash(object):
         
         dct = scipy.fftpack.dct(scipy.fftpack.dct(img, axis=0), axis=1)
         dctlowfreq = dct[:hash_size, :hash_size]
-        med = np.median(dctlowfreq)
-        diff = dctlowfreq > med
+        diff = dctlowfreq > np.median(dctlowfreq)
         return np.hstack(diff)
     
     def add(self, id, data):
