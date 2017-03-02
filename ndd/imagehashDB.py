@@ -41,7 +41,9 @@ class Imagehash(object):
         dct = scipy.fftpack.dct(scipy.fftpack.dct(img, axis=0), axis=1)
         dctlowfreq = dct[:hash_size, :hash_size]
         diff = dctlowfreq > np.median(dctlowfreq)
-        return np.hstack(diff)
+        
+        reord = np.argsort(np.maximum(np.tile(np.arange(hash_size), hash_size), np.repeat(np.arange(hash_size), hash_size)))
+        return np.hstack(diff)[reord]
     
     def add(self, id, data):
         if id not in self.ids:
