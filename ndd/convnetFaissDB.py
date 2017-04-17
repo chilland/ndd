@@ -15,7 +15,6 @@ from keras.preprocessing import image
 from keras.applications.vgg16 import VGG16
 from keras.applications.vgg16 import preprocess_input
 
-sys.path.append('/home/bjohnson/software/faiss')
 import faiss
 
 import ndd
