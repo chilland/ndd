@@ -4,6 +4,7 @@ from imagehashRedisDB import ImagehashRedis
 
 try:
     from convnetDB import ConvNet
+    from convnetFaissDB import ConvNetFaiss
 except:
     pass
 
