@@ -3,11 +3,11 @@ from hashlibDB import Hashlib
 from imagehashDB import Imagehash
 from imagehashRedisDB import ImagehashRedis
 
-try:
-    from convnetDB import ConvNet
-except:
-    print >> sys.stderr, "error loading ndd.ConvNet"
-    pass
+# try:
+from convnetDB import ConvNet
+# except:
+#     print >> sys.stderr, "error loading ndd.ConvNet"
+#     pass
 
 try:
     from convnetFaissDB import ConvNetFaiss
