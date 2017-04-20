@@ -10,27 +10,34 @@ import sys
 import urllib
 import cStringIO
 import numpy as np
-from PIL import Image
+from PIL import Image as pil_image
 
 from keras.preprocessing.image import img_to_array
 from redis import StrictRedis
 from rediscluster import StrictRedisCluster
 
+# -- 
+# Image utils
+
 def load_img(path, grayscale=False, target_size=None):
     if path[:4] == 'http': # Allow loading from http URL
         path = cStringIO.StringIO(urllib.urlopen(path).read())
-    
-    img = Image.open(path)
-    
+
+    img = pil_image.open(path)
     if grayscale:
-        img = img.convert('L')
-    else:  # Ensure 3 channel even when loaded image is grayscale
-        img = img.convert('RGB')
-    
+        if img.mode != 'L':
+            img = img.convert('L')
+    else:
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
     if target_size:
-        img = img.resize((target_size[1], target_size[0]))
-    
+        wh_tuple = (target_size[1], target_size[0])
+        if img.size != wh_tuple:
+            img = img.resize(wh_tuple)
     return img
+
+# --
+# Redis utils
 
 def get_host_port(connect, default_port=80):
     hostport = connect.split(':')
@@ -40,7 +47,6 @@ def get_host_port(connect, default_port=80):
         port = default_port
     
     return hostport[0], port
-
 
 def get_redis_connection(redis_service, default_port):
     nodes = redis_service.split(',')
