@@ -17,10 +17,10 @@ setup(
 	packages=['ndd'],
 	version="0.0.3",
 	install_requires=[
-		"Keras==1.1.0",
+		"Keras>=1.1.0",
 		"numpy>=1.11.2",
 		"scipy>=0.18.1",
-		"redis==2.10.5",
-		"redis-py-cluster==1.2.0"
+		"redis>=2.10.5",
+		"redis-py-cluster>=1.2.0"
 	]
 )

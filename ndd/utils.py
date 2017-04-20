@@ -17,14 +17,17 @@ from rediscluster import StrictRedisCluster
 def load_img(path, grayscale=False, target_size=None):
     if path[:4] == 'http': # Allow loading from http URL
         path = cStringIO.StringIO(urllib.urlopen(path).read())
-
+    
     img = Image.open(path)
+    
     if grayscale:
         img = img.convert('L')
     else:  # Ensure 3 channel even when loaded image is grayscale
         img = img.convert('RGB')
+    
     if target_size:
         img = img.resize((target_size[1], target_size[0]))
+    
     return img
 
 
