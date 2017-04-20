@@ -5,17 +5,20 @@
 """
 
 import os
+os.environ['KERAS_BACKEND'] = 'theano'
+import keras.backend as K
+K.set_image_dim_ordering('th')
+
 import sys
 import numpy as np
 from PIL import Image
-
-import ndd
 
 from keras.models import Model
 from keras.preprocessing import image
 from keras.applications.vgg16 import VGG16
 from keras.applications.vgg16 import preprocess_input
 
+import ndd
 
 class ConvNet(object):
     method = 'vgg16_fc7'

@@ -6,6 +6,10 @@
 """
 
 import os
+os.environ['KERAS_BACKEND'] = 'theano'
+import keras.backend as K
+K.set_image_dim_ordering('th')
+
 import sys
 import numpy as np
 from PIL import Image
