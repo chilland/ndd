@@ -12,7 +12,7 @@ import cStringIO
 import numpy as np
 from PIL import Image
 
-from keras.preprocessing import img_to_array
+from keras.preprocessing.image import img_to_array
 from redis import StrictRedis
 from rediscluster import StrictRedisCluster
 
