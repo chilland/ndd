@@ -7,10 +7,12 @@
 """
 
 import sys
-from PIL import Image
 import urllib
 import cStringIO
 import numpy as np
+from PIL import Image
+
+from keras.preprocessing import img_to_array
 from redis import StrictRedis
 from rediscluster import StrictRedisCluster
 
@@ -29,17 +31,6 @@ def load_img(path, grayscale=False, target_size=None):
         img = img.resize((target_size[1], target_size[0]))
     
     return img
-
-
-def img_to_array(img):
-    x = np.asarray(img, dtype='float32')
-    if len(x.shape) == 3:
-        x = x.transpose(2, 0, 1)
-    elif len(x.shape) == 2:
-        x = x.reshape((1, x.shape[0], x.shape[1]))
-    else:
-        raise Exception('Unsupported image shape: ', x.shape)
-    return x
 
 def get_host_port(connect, default_port=80):
     hostport = connect.split(':')
