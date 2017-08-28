@@ -1,8 +1,8 @@
 """
     utils.py
-    
+
     Utilities for NDD
-    
+
     `load_img` and `img_to_array` are adapted from Keras
 """
 
@@ -16,11 +16,13 @@ from keras.preprocessing.image import img_to_array
 from redis import StrictRedis
 from rediscluster import StrictRedisCluster
 
-# -- 
+# --
 # Image utils
 
 def load_img(path, grayscale=False, target_size=None):
     if path[:4] == 'http': # Allow loading from http URL
+        with contextlib.closing(urllib.urlopen(path)) as req:
+            path = cStringIO.StringIO(req.read())
         path = cStringIO.StringIO(urllib.urlopen(path).read())
 
     img = pil_image.open(path)
@@ -45,7 +47,7 @@ def get_host_port(connect, default_port=80):
         port = int(hostport[1])
     else:
         port = default_port
-    
+
     return hostport[0], port
 
 def get_redis_connection(redis_service, default_port):
@@ -59,8 +61,8 @@ def get_redis_connection(redis_service, default_port):
         for node in nodes:
             r_host, r_port = node.split(':')
             startup_nodes.append({'host' : r_host, 'port' : r_port})
-        
+
         r = StrictRedisCluster(startup_nodes=startup_nodes, decode_responses=True)
         print "Multi-node Redis connection established."
-    
+
     return r
